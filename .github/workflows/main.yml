@@ -19,8 +19,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Check Dockerfile with Hadolint
+      run: |
+        docker run --rm -i hadolint/hadolint < Dockerfile
+
     - name: Build and push Docker image
       run: |
         docker build -t elordiner/weather-api:latest .
         docker push elordiner/weather-api:latest
-
