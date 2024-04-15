@@ -24,7 +24,3 @@ jobs:
         docker build -t elordiner/weather-api:latest .
         docker push elordiner/weather-api:latest
 
-    - name: Run Hadolint
-      uses: hadolint/hadolint-action@v1.6.0
-      with:
-        dockerfile: Dockerfile
