@@ -24,11 +24,3 @@ jobs:
         docker build -t elordiner/weather-api:latest .
         docker push elordiner/weather-api:latest
 
-
-        env:
-          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-
-        - name: Run Hadolint
-        uses: hadolint/hadolint-action@v1.6.0
-        with:
-          dockerfile: Dockerfile
