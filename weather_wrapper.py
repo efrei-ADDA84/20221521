@@ -1,21 +1,22 @@
+from flask import Flask, request, jsonify
 import os
 import requests
 
-def get_weather(latitude, longitude):
+app = Flask(__name__)
+
+@app.route('/weather', methods=['GET'])
+def get_weather():
+    latitude = float(request.args.get('lat'))
+    longitude = float(request.args.get('lon'))
     api_key = os.environ.get('API_KEY')
     url = f'http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={api_key}'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        return data
+        return jsonify(data)
     else:
-        return None
+        return jsonify({"error": "Failed to fetch weather data. Check your API key or coordinates."}), 500
 
 if __name__ == "__main__":
-    latitude = float(os.environ.get('LAT'))
-    longitude = float(os.environ.get('LONG'))
-    weather_data = get_weather(latitude, longitude)
-    if weather_data:
-        print(weather_data)
-    else:
-        print("Failed to fetch weather data. Check your API key or coordinates.")
+    app.run(debug=True, host='0.0.0.0', port=80)
+
